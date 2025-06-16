@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discover Your Destination</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      background: linear-gradient(to right, #dff6ff, #c7ecee);
+      padding: 30px;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    .puzzle-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .letter {
+      border: 2px solid #3498db;
+      padding: 10px;
+      margin: 5px;
+      font-size: 24px;
+      width: 40px;
+      height: 40px;
+      text-transform: uppercase;
+    }
+    .input-container {
+      margin-top: 20px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      font-size: 18px;
+      width: 200px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-left: 10px;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 Discover Your Destination</h1>
+  <p>Unscramble the letters to reveal your mystery travel destination!</p>
+
+  <div class="puzzle-container" id="puzzle"></div>
+
+  <div class="input-container">
+    <input type="text" id="guess" placeholder="Your answer...">
+    <button onclick="checkAnswer()">Submit</button>
+  </div>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    const wordList = ["paris", "nairobi", "tokyo", "mombasa", "bali"];
+    const chosenWord = wordList[Math.floor(Math.random() * wordList.length)];
+
+    // Scramble function
+    function scramble(word) {
+      const array = word.split("");
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Display the puzzle
+    const puzzle = document.getElementById("puzzle");
+    const scrambled = scramble(chosenWord);
+    scrambled.forEach(letter => {
+      const div = document.createElement("div");
+      div.className = "letter";
+      div.textContent = letter;
+      puzzle.appendChild(div);
+    });
+
+    function checkAnswer() {
+      const guess = document.getElementById("guess").value.toLowerCase();
+      const result = document.getElementById("result");
+      if (guess === chosenWord) {
+        result.textContent = `✅ Correct! Pack your bags for ${chosenWord.charAt(0).toUpperCase() + chosenWord.slice(1)}!`;
+        result.style.color = "green";
+      } else {
+        result.textContent = "❌ Try again! That’s not quite right.";
+        result.style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>
